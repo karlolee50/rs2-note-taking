@@ -7,17 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Note extends Model
+class Label extends Model
 {
   use HasFactory;
-
-  protected $fillable = ['title', 'content'];
 
   public function user(): BelongsTo {
     return $this->belongsTo(User::class);
   }
 
-  public function labels(): BelongsToMany {
-    return $this->belongsToMany(Label::class);
+  public function notes(): BelongsToMany {
+    return $this->belongsToMany(Note::class);
   }
 }
