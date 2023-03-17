@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->string('title', '32');
             $table->string('content', '300');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')
-              ->cascadeOnDelete()  
-              ->references('id')->on('users');
+            // $table->unsignedBigInteger('user_id');
+            // $table->foreign('user_id')
+            //   ->cascadeOnDelete()  
+            //   ->references('id')->on('users');
             $table->timestamps();
         });
     }
