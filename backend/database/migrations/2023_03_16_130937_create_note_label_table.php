@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('note_label', function (Blueprint $table) {
+        Schema::create('label_note', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('note_id');
             $table->foreign('note_id')->references('id')->on('notes');

@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreNoteRequest;
 use App\Http\Resources\V1\NoteResource;
+use App\Models\Label;
 use App\Models\Note;
-use Illuminate\Http\Request;
 
 class NoteController extends Controller
 {
@@ -15,8 +15,12 @@ class NoteController extends Controller
   }
 
   public function store (StoreNoteRequest $request) {
-    Note::create($request->validated());
-    return response()->json('Note Created');
+    $label = Label::create([
+      'name' => $request->label
+    ]);
+    Note::create($request->validated())->labels()->attach($label->id);
+
+    return response()->json('Note created');
   }
 
   public function update (StoreNoteRequest $request, Note $note) {
