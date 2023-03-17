@@ -1,28 +1,47 @@
 <script setup>
-import { ref } from "vue";
+import { ref, reactive } from "vue";
+import useNotes from "../../api/notes";
 import Input from "../../components/Input/Input.vue";
 
-const title = ref("");
-const content = ref("");
-const label = ref("");
+const { storeNote, errors } = useNotes();
+const form = reactive({
+  title: "",
+  content: "",
+  label: "",
+});
 </script>
 
 <template>
-  <div class="w-fit">
-    <Input label="Note Title" name="title" v-model:model-value="title" />
-
-    <p class="text-2xl">Note Content</p>
-    <textarea
-      v-model="content"
-      rows="10"
-      cols="50"
-      name="content"
-      class="border-2 border-lime-900 mb-2"
-    />
-
-    <Input label="Note Label" name="label" v-model:model-value="label" />
-    <button class="w-full p-2 rounded border bg-cyan-400 text-xl">
-      Submit
-    </button>
+  <div class="mt-12">
+    <form
+      action="post"
+      class="bg-white p-4 rounded"
+      @submit.prevent="storeNote(form)"
+    >
+      <div class="space-y-6">
+        <Input
+          label="Note Title"
+          name="title"
+          type="textfield"
+          :error="errors.title ? errors.title[0] : ''"
+          v-model:model-value="form.title"
+        />
+        <Input
+          label="Note Content"
+          name="content"
+          type="textarea"
+          v-model:model-value="form.content"
+        />
+        <Input
+          label="Note Label"
+          name="label"
+          type="textfield"
+          v-model:model-value="form.label"
+        />
+        <button class="p-2 rounded border bg-yellow-300 text-xl" type="submit">
+          Submit
+        </button>
+      </div>
+    </form>
   </div>
 </template>

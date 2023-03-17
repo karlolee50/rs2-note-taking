@@ -10,7 +10,7 @@ const props = defineProps({
 </script>
 
 <template>
-  <div class="w-80 max-h-80 p-5 border border-yellow-300 rounded">
+  <div class="w-80 max-h-80 p-5 bg-white border border-yellow-300 rounded">
     <div class="h-full relative">
       <div class="flex items-center justify-between">
         <p class="text-xl">{{ title }}</p>
