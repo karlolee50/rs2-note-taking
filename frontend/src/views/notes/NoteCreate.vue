@@ -1,14 +1,18 @@
 <script setup>
-import { reactive } from "vue";
+import { reactive, onMounted } from "vue";
+
 import useNotes from "../../api/notes";
+import useLabels from "../../api/labels";
 import Input from "../../components/Input/Input.vue";
 
+const { labels, getLabels } = useLabels();
 const { storeNote, errors } = useNotes();
 const form = reactive({
   title: "",
   content: "",
   label: "",
 });
+onMounted(() => getLabels());
 </script>
 
 <template>
