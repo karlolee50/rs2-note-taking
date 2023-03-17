@@ -2,10 +2,9 @@
 
 namespace App\Http\Resources\V1;
 
-use App\Models\Label;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class NoteResource extends JsonResource
+class LabelResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,9 +16,7 @@ class NoteResource extends JsonResource
     {
         return [
           'id' => $this->id,
-          'title' => $this->title,
-          'content' => $this->content,
-          'labels' => LabelResource::collection($this->whenLoaded('labels'))
+          'name' => $this->name,
         ];
     }
 }

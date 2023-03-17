@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive } from "vue";
+import { reactive } from "vue";
 import useNotes from "../../api/notes";
 import Input from "../../components/Input/Input.vue";
 
@@ -30,6 +30,7 @@ const form = reactive({
           label="Note Content"
           name="content"
           type="textarea"
+          :error="errors.content ? errors.content[0] : ''"
           v-model:model-value="form.content"
         />
         <Input

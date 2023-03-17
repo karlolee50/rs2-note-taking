@@ -11,7 +11,7 @@ use App\Models\Note;
 class NoteController extends Controller
 {
   public function index () {
-    return NoteResource::collection(Note::all());
+    return NoteResource::collection(Note::with('labels')->get());
   }
 
   public function store (StoreNoteRequest $request) {

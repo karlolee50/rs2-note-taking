@@ -12,6 +12,7 @@ onMounted(() => getNotes());
   <div class="grid grid-cols-3 gap-4">
     <NoteCard
       v-for="note in notes"
+      :id="note.id"
       :title="note.title"
       :content="note.content"
       :labels="note.labels"

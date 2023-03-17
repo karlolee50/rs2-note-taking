@@ -23,6 +23,7 @@ const router = createRouter({
       path: "/notes/:id/edit",
       name: "NoteEdit",
       component: () => import("../views/notes/NoteEdit.vue"),
+      props: true,
     },
   ],
 });

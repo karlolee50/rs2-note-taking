@@ -2,11 +2,6 @@
 import { RouterView } from "vue-router";
 import Header from "./components/header/Header.vue";
 import Sidebar from "./components/sidebar/Sidebar.vue";
-
-const routes = [
-  { to: "/", text: "Notes" },
-  { to: "/notes", text: "New Note" },
-];
 </script>
 
 <template>
