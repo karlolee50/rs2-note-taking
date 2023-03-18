@@ -15,9 +15,6 @@ class NoteController extends Controller
   }
 
   public function store (StoreNoteRequest $request) {
-    // $label = Label::create([
-    //   'name' => $request->label
-    // ]);
     $labelIds = array();
     foreach($request->noteLabels as $label) {
       $existingLabel = Label::where('id', $label['id'])->first();
@@ -41,7 +38,7 @@ class NoteController extends Controller
   }
 
   public function show(Note $note) {
-    return new NoteResource($note);
+    return new NoteResource($note->load(('labels')));
   }
 
   public function destroy(Note $note) {

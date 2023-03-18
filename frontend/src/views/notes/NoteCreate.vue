@@ -7,6 +7,9 @@ import Input from "../../components/Input/Input.vue";
 
 const { labels, getLabels } = useLabels();
 const { storeNote, errors } = useNotes();
+
+onMounted(() => getLabels());
+
 const form = reactive({
   title: "",
   content: "",
@@ -17,8 +20,6 @@ const filter = reactive({
   label: "",
   filteredLabels: [],
 });
-
-onMounted(() => getLabels());
 
 const handleFilter = (event) => {
   const filteredLabels = labels.value.filter((label) => {

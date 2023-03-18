@@ -1,4 +1,5 @@
 <script setup>
+import { computed } from "vue";
 import SquareEditOutline from "vue-material-design-icons/SquareEditOutline.vue";
 import TrashCanOutline from "vue-material-design-icons/TrashCanOutline.vue";
 import { useRouter } from "vue-router";
@@ -10,6 +11,10 @@ const props = defineProps({
   labels: Array,
 });
 const router = useRouter();
+
+const formattedLabels = computed(() => {
+  return props.labels.map((label) => label.name).join(",");
+});
 </script>
 
 <template>
@@ -34,7 +39,7 @@ const router = useRouter();
       </div>
     </div>
     <div class="p-2 flex justify-end bg-yellow-300 rounded">
-      <span v-for="label in labels" :id="label.id">{{ label.name }},</span>
+      <span class="text-sm">{{ formattedLabels }}</span>
     </div>
   </div>
 </template>
