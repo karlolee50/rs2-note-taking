@@ -26,7 +26,7 @@ class StoreNoteRequest extends FormRequest
         return [
             'title' => 'required|max:32',
             'content' => 'required|max:300',
-            'label' => 'nullable'
+            'noteLabels' => 'nullable'
         ];
     }
 }

@@ -1,11 +1,5 @@
 <script setup>
-import { reactive, onMounted, ref, computed } from "vue";
-import {
-  Combobox,
-  ComboboxInput,
-  ComboboxOptions,
-  ComboboxOption,
-} from "@headlessui/vue";
+import { reactive, onMounted } from "vue";
 
 import useNotes from "../../api/notes";
 import useLabels from "../../api/labels";
@@ -16,27 +10,40 @@ const { storeNote, errors } = useNotes();
 const form = reactive({
   title: "",
   content: "",
-  label: "",
+  noteLabels: [],
 });
+
+const filter = reactive({
+  label: "",
+  filteredLabels: [],
+});
+
 onMounted(() => getLabels());
 
-const people = [
-  "Durward Reynolds",
-  "Kenton Towne",
-  "Therese Wunsch",
-  "Benedict Kessler",
-  "Katelyn Rohan",
-];
-const selectedPerson = ref([labels.value[0], labels.value[1]]);
-const query = ref("");
+const handleFilter = (event) => {
+  const filteredLabels = labels.value.filter((label) => {
+    return label.name.toLowerCase().includes(event.target.value);
+  });
+  filter.filteredLabels = filteredLabels;
+};
 
-const filteredLabels = computed(() =>
-  query.value === ""
-    ? labels
-    : labels.value.filter((label) => {
-        return label.name.toLowerCase().includes(query.value.toLowerCase());
-      })
-);
+const selectLabel = (label) => {
+  if (
+    form.noteLabels.find(
+      (noteLabel) => noteLabel.id === label.id && noteLabel.name === label.name
+    )
+  )
+    return;
+  form.noteLabels.push(label);
+  filter.label = "";
+};
+
+const addNewLabel = () => {
+  form.noteLabels.push({
+    id: "",
+    name: filter.label,
+  });
+};
 </script>
 
 <template>
@@ -61,32 +68,36 @@ const filteredLabels = computed(() =>
           :error="errors.content ? errors.content[0] : ''"
           v-model:model-value="form.content"
         />
+        <div>
+          <p class="text-2xl">Selected Labels</p>
+          <p v-for="label in form.noteLabels" :id="label.id">
+            {{ label.name }}
+          </p>
+        </div>
         <Input
           label="Note Label"
           name="label"
           type="textfield"
-          v-model:model-value="form.label"
+          v-model:model-value="filter.label"
+          @input="handleFilter"
         />
-        <Combobox v-model="selectedPerson" multiple>
-          <ul v-if="selectedPerson.length > 0">
-            <li v-for="person in selectedPerson" :key="person.id">
-              {{ person.name }}
-            </li>
-          </ul>
-          <ComboboxInput
-            @change="query = $event.target.value"
-            :displayValue="(label) => label.name"
-          />
-          <ComboboxOptions>
-            <ComboboxOption
-              v-for="label in filteredLabels"
-              :key="label.id"
-              :value="label"
-            >
-              {{ label.name }}
-            </ComboboxOption>
-          </ComboboxOptions>
-        </Combobox>
+        <div class="border p-4" v-if="filter.filteredLabels.length">
+          <p
+            v-for="label in filter.filteredLabels"
+            :id="label.id"
+            class="cursor-pointer m-1 hover:bg-slate-400"
+            @click="selectLabel(label)"
+          >
+            {{ label.name }}
+          </p>
+        </div>
+        <div
+          v-if="!filter.filteredLabels.length && !!filter.label"
+          @click="addNewLabel"
+          class="cursor-pointer"
+        >
+          Add new label?
+        </div>
         <button class="p-2 rounded border bg-yellow-300 text-xl" type="submit">
           Submit
         </button>

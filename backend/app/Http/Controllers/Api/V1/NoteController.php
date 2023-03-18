@@ -15,10 +15,22 @@ class NoteController extends Controller
   }
 
   public function store (StoreNoteRequest $request) {
-    $label = Label::create([
-      'name' => $request->label
-    ]);
-    Note::create($request->validated())->labels()->attach($label->id);
+    // $label = Label::create([
+    //   'name' => $request->label
+    // ]);
+    $labelIds = array();
+    foreach($request->noteLabels as $label) {
+      $existingLabel = Label::where('id', $label['id'])->first();
+      if ($existingLabel) {
+        array_push($labelIds, $existingLabel->id);
+      } else {
+        $label = Label::create([
+          'name' => $label['name']
+        ]);
+        array_push($labelIds, $label->id);
+      }
+    }
+    Note::create($request->validated())->labels()->attach($labelIds);
 
     return response()->json('Note created');
   }
